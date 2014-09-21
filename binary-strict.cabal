@@ -1,5 +1,5 @@
 name:            binary-strict
-version:         0.4.7
+version:         0.4.7.1
 license:         BSD3
 license-file:    LICENSE
 author:          Lennart Kolmodin <kolmodin@dtek.chalmers.se>
@@ -31,3 +31,4 @@ hs-source-dirs:  src
 extra-source-files: tests/BitGetTest.hs, src/Data/Binary/Strict/Common.h
 ghc-options:     -Wall -fno-warn-name-shadowing
 build-type:      Simple
+build-depends:   mtl >= 2.1 && <2.2

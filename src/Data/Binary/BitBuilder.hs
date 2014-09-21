@@ -37,9 +37,9 @@ module Data.Binary.BitBuilder (
 
 import Foreign
 import Data.Monoid
-import Data.Word
 import qualified Data.ByteString      as S
 import qualified Data.ByteString.Lazy as L
+import System.IO.Unsafe (unsafePerformIO)
 
 #ifdef BYTESTRING_IN_BASE
 import Data.ByteString.Base (inlinePerformIO)
