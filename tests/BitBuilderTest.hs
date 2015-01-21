@@ -46,4 +46,4 @@ prop_order xs = lbsToBits (BB.toLazyByteString bb) == zeroExtend list where
   bb = foldr mappend mempty $ map fst es
   list = concat $ map snd es
 
-main = quickCheck (defaultConfig { configMaxTest = 10000}) prop_order
+main = quickCheckWith (stdArgs { maxSize = 10000}) prop_order
