@@ -35,7 +35,7 @@ module Data.Binary.BitBuilder (
     , flush
   ) where
 
-import Foreign
+import Foreign hiding (unsafePerformIO)
 import Data.Monoid
 import qualified Data.ByteString      as S
 import qualified Data.ByteString.Lazy as L
