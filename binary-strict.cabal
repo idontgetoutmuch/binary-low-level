@@ -1,10 +1,10 @@
 name:            binary-strict
-version:         0.4.8.1
+version:         0.4.8.2
 license:         BSD3
 license-file:    LICENSE
 author:          Lennart Kolmodin <kolmodin@dtek.chalmers.se>
 maintainer:      Dominic Steinitz <dominic@steinitz.org>
-homepage:        http://code.haskell.org/binary-low-level
+homepage:        https://github.com/idontgetoutmuch/binary-low-level
 description:     This is a strict version of the Get monad from the binary
                  package. It's pretty much just a copy and paste job from the
                  original source code. The binary team are currently unsure
@@ -16,7 +16,7 @@ synopsis:        Binary deserialisation using strict ByteStrings
 category:        Data, Parsing
 build-depends:   base<5, containers, array, bytestring>=0.9
 stability:       provisional
-tested-with:     GHC == 6.8.2
+tested-with:     GHC == 7.8.3
 exposed-modules: Data.Binary.BitPut
                  Data.Binary.Strict.ByteSet
                  Data.Binary.Strict.BitGet,
