@@ -49,6 +49,10 @@ type BitPut = BitPutM ()
 instance Functor BitPutM where
    fmap f m = BitPutM (let (a, w) = unPut m in (f a, w))
 
+instance Applicative BitPutM where
+  pure  = return
+  (<*>) = ap
+
 instance Monad BitPutM where
    return a = BitPutM (a,BB.empty)
    m >>= k = BitPutM (let (a, w) = unPut m
@@ -100,6 +104,10 @@ instance Monad m => Functor (BitPutT m) where
    fmap f m = BitPutT $ do
       ~(x, w) <- unPutT m
       return (f x, w)
+
+instance Monad m => Applicative (BitPutT m) where
+  pure  = return
+  (<*>) = ap
 
 instance Monad m => Monad (BitPutT m) where
    return a = BitPutT $ return (a, BB.empty)

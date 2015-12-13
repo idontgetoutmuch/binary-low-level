@@ -78,6 +78,13 @@ data S = S {-# UNPACK #-} !B.ByteString  -- input
 
 newtype BitGet a = BitGet { unGet :: S -> (Either String a, S) }
 
+instance Functor BitGet where
+  fmap = liftM
+
+instance Applicative BitGet where
+  pure  = return
+  (<*>) = ap
+
 instance Monad BitGet where
   return a = BitGet (\s -> (Right a, s))
   m >>= k = BitGet (\s -> case unGet m s of
