@@ -27,6 +27,7 @@ tests = [
   , t [1, 2, 3, 0] (BG.getAsWord32 24) 66051
   , t [1, 2, 3, 0] (BG.getAsWord32 8) 1
   , t [1, 2, 3, 4, 5] (BG.getAsWord64 40) 4328719365
+  , t [251, 161, 235, 192] (BG.getAsInt32 28) (-4579652)
   ]
 
 main = do
