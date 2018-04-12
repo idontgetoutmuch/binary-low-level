@@ -37,6 +37,7 @@ module Data.Binary.BitBuilder (
 
 import Foreign hiding (unsafePerformIO)
 import Data.Monoid
+import Data.Semigroup (Semigroup((<>)))
 import qualified Data.ByteString      as S
 import qualified Data.ByteString.Lazy as L
 import System.IO.Unsafe (unsafePerformIO)
@@ -79,6 +80,9 @@ newtype BitBuilder = BitBuilder {
 
 instance Show BitBuilder where
   show = const "<BitBuilder>"
+
+instance Semigroup BitBuilder where
+  (<>) = append
 
 instance Monoid BitBuilder where
     mempty  = empty
