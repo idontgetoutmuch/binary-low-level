@@ -38,11 +38,17 @@ module Data.Binary.Strict.BitGet (
   , getLeftByteString
   , getRightByteString
 
-  -- ** Interpreting some number of bits as an integer
+  -- ** Interpreting some number of bits as an unsigned integer
   , getAsWord8
   , getAsWord16
   , getAsWord32
   , getAsWord64
+
+  -- ** Interpreting some number of bits as a signed integer
+  , getAsInt8
+  , getAsInt16
+  , getAsInt32
+  , getAsInt64
 
   -- ** Parsing particular types
   , getWord8
@@ -212,6 +218,33 @@ getAsWord64 n = do
     s <- readN BRight n id >>= return . leftPad 8
     return $! DECWORD64BE(s)
 {-# INLINE getWord64be #-}
+
+-- | Reads an 'Int8', sign-extending the input if it has
+-- fewer than 8 bits.
+getAsInt8 :: Int -> BitGet Int8
+getAsInt8 n = fmap (signExtendRightAlignedWord n) (getAsWord8 n)
+
+-- | Reads an 'Int16' in big endian format, sign-extending the input if it has
+-- fewer than 16 bits.
+getAsInt16 :: Int -> BitGet Int16
+getAsInt16 n = fmap (signExtendRightAlignedWord n) (getAsWord16 n)
+
+-- | Reads an 'Int32' in big endian format, sign-extending the input if it has
+-- fewer than 32 bits.
+getAsInt32 :: Int -> BitGet Int32
+getAsInt32 n = fmap (signExtendRightAlignedWord n) (getAsWord32 n)
+
+-- | Reads an 'Int64' in big endian format, sign-extending the input if it has
+-- fewer than 64 bits.
+getAsInt64 :: Int -> BitGet Int64
+getAsInt64 n = fmap (signExtendRightAlignedWord n) (getAsWord64 n)
+
+-- Assumes but does not verify that a and b have the same finite size.
+signExtendRightAlignedWord :: (FiniteBits a, FiniteBits b, Integral a, Integral b) => Int -> a -> b
+signExtendRightAlignedWord n x = fromIntegral (x `shiftL` shift) `shiftR` shift
+  where
+    shift = finiteBitSize x - n
+{-# INLINE signExtendRightAlignedWord #-}
 
 shiftl_w16 :: Word16 -> Int -> Word16
 shiftl_w32 :: Word32 -> Int -> Word32
