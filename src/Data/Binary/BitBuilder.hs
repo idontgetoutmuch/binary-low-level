@@ -36,7 +36,6 @@ module Data.Binary.BitBuilder (
   ) where
 
 import Foreign hiding (unsafePerformIO)
-import Data.Monoid
 import Data.Semigroup (Semigroup((<>)))
 import qualified Data.ByteString      as S
 import qualified Data.ByteString.Lazy as L
@@ -86,7 +85,6 @@ instance Semigroup BitBuilder where
 
 instance Monoid BitBuilder where
     mempty  = empty
-    mappend = append
 
 ------------------------------------------------------------------------
 
