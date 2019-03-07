@@ -35,7 +35,7 @@ module Data.Binary.BitBuilder (
     , flush
   ) where
 
-import Foreign hiding (unsafePerformIO)
+import Foreign
 import Data.Semigroup (Semigroup((<>)))
 import qualified Data.ByteString      as S
 import qualified Data.ByteString.Lazy as L
@@ -228,7 +228,7 @@ defaultSize = 8 * (512 - overhead) where
 
 -- | Sequence an IO operation on the buffer
 unsafeLiftIO :: (Buffer -> IO Buffer) -> BitBuilder
-unsafeLiftIO f =  BitBuilder $ \ k buf -> inlinePerformIO $ do
+unsafeLiftIO f =  BitBuilder $ \ k buf -> unsafePerformIO $ do
     buf' <- f buf
     return (k buf')
 {-# INLINE unsafeLiftIO #-}
