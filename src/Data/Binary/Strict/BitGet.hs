@@ -70,7 +70,6 @@ import qualified Data.ByteString as B
 import qualified Data.ByteString.Internal as BI
 import Data.Binary.Strict.BitUtil
 import Foreign
-import Data.Bits
 
 #if defined(__GLASGOW_HASKELL__) && !defined(__HADDOCK__)
 import GHC.Base
