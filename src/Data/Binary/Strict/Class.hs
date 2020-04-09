@@ -4,15 +4,15 @@
 --   -fno-monomorphism-restriction is very useful.
 module Data.Binary.Strict.Class where
 
-import Control.Applicative (Alternative, (<|>))
+import           Control.Applicative (Alternative, (<|>))
 
-import qualified Data.ByteString as B
-import Data.Word
+import qualified Data.ByteString     as B
+import           Data.Word
 
 -- | This is the generic class for the set of binary parsers. This lets you
 --   write parser functions which are agnostic about the pattern of parsing
 --   in which they get used (incremental, strict, bitwise etc)
-class (Monad m, Alternative m) => BinaryParser m where
+class (Monad m, MonadFail m, Alternative m) => BinaryParser m where
   skip :: Int -> m ()
   bytesRead :: m Int
   remaining :: m Int
@@ -60,7 +60,7 @@ class (Monad m, Alternative m) => BinaryParser m where
     result <- many p
     case result of
          [] -> fail ""
-         x -> return x
+         x  -> return x
 
   optional :: m a -> m (Maybe a)
   optional p = (p >>= return . Just) <|> return Nothing

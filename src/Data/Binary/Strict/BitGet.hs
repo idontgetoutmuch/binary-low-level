@@ -95,7 +95,15 @@ instance Monad BitGet where
   m >>= k = BitGet (\s -> case unGet m s of
                             (Left err, s') -> (Left err, s')
                             (Right a, s') -> unGet (k a) s')
+#ifdef MIN_VERSION_GLASGOW_HASKELL
+#if MIN_VERSION_GLASGOW_HASKELL(8,8,0,0)
+
+instance MonadFail BitGet where
   fail err = BitGet (\s -> (Left err, s))
+#else
+  fail err = BitGet (\s -> (Left err, s))
+#endif
+#endif
 
 -- | Run a BitGet on a ByteString
 runBitGet :: B.ByteString -> BitGet a -> Either String a
