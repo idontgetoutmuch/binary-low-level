@@ -1,3 +1,4 @@
+{-# LANGUAGE CPP #-}
 -- | This module contains a single class which abstracts over Get and
 --   IncrementalGet, so that one can write parsers which work in both.
 --   If you are using this module, you may find that
@@ -12,7 +13,13 @@ import           Data.Word
 -- | This is the generic class for the set of binary parsers. This lets you
 --   write parser functions which are agnostic about the pattern of parsing
 --   in which they get used (incremental, strict, bitwise etc)
+#ifdef MIN_VERSION_GLASGOW_HASKELL
+#if MIN_VERSION_GLASGOW_HASKELL(8,8,0,0)
 class (Monad m, MonadFail m, Alternative m) => BinaryParser m where
+#else
+class (Monad m, Alternative m) => BinaryParser m where
+#endif
+#endif
   skip :: Int -> m ()
   bytesRead :: m Int
   remaining :: m Int
