@@ -116,7 +116,15 @@ instance Monad Get where
   m >>= k = Get (\s -> case unGet m s of
                             (Left err, s') -> (Left err, s')
                             (Right a, s') -> unGet (k a) s')
+#ifdef MIN_VERSION_GLASGOW_HASKELL
+#if MIN_VERSION_GLASGOW_HASKELL(8,8,0,0)
+
+instance MonadFail Get where
   fail err = Get (\s -> (Left err, s))
+#else
+  fail err = Get (\s -> (Left err, s))
+#endif
+#endif
 
 get :: Get S
 get = Get (\s -> (Right s, s))

@@ -143,7 +143,15 @@ instance Functor (Get r) where
 instance Monad (Get r) where
   return a = Get (\s -> \k -> k a s)
   m >>= k = Get (\s -> \cont -> unGet m s (\a -> \s' -> unGet (k a) s' cont))
+#ifdef MIN_VERSION_GLASGOW_HASKELL
+#if MIN_VERSION_GLASGOW_HASKELL(8,8,0,0)
+
+instance MonadFail (Get r) where
   fail err = Get (\s -> const $ IFailed s err)
+#else
+  fail err = Get (\s -> const $ IFailed s err)
+#endif
+#endif
 
 get :: Get r S
 get = Get (\s -> \k -> k s s)
