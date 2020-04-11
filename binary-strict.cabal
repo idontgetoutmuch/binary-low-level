@@ -1,6 +1,6 @@
 cabal-version:       >=1.10
 name:                binary-strict
-version:             0.4.8.5
+version:             0.4.8.6
 synopsis:            Binary deserialisation using strict ByteStrings
 description:         This is a strict version of the Get monad from the binary
                      package. It's pretty much just a copy and paste job
