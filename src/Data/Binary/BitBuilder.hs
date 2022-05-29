@@ -45,7 +45,7 @@ import System.IO.Unsafe (unsafePerformIO)
 import Data.ByteString.Base (inlinePerformIO)
 import qualified Data.ByteString.Base as S
 #else
-import Data.ByteString.Internal (inlinePerformIO)
+import Data.ByteString.Internal (accursedUnutterablePerformIO)
 import qualified Data.ByteString.Internal as S
 import qualified Data.ByteString.Lazy.Internal as L
 #endif

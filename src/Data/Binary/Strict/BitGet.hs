@@ -176,7 +176,7 @@ isEmpty = do
 getPtr :: Storable a => Int -> BitGet a
 getPtr n = do
     (fp, o, _) <- readN BRight (n * 8) BI.toForeignPtr
-    return . BI.inlinePerformIO $ withForeignPtr fp $ \p -> peek (castPtr $ p `plusPtr` o)
+    return . BI.accursedUnutterablePerformIO $ withForeignPtr fp $ \p -> peek (castPtr $ p `plusPtr` o)
 {-# INLINE getPtr #-}
 
 -- | Get a single bit from the input
@@ -258,8 +258,8 @@ shiftl_w32 :: Word32 -> Int -> Word32
 shiftl_w64 :: Word64 -> Int -> Word64
 
 #if defined(__GLASGOW_HASKELL__) && !defined(__HADDOCK__)
-shiftl_w16 (W16# w) (I# i) = W16# (w `uncheckedShiftL#`   i)
-shiftl_w32 (W32# w) (I# i) = W32# (w `uncheckedShiftL#`   i)
+shiftl_w16 = unsafeShiftL
+shiftl_w32 = unsafeShiftR
 
 #if WORD_SIZE_IN_BITS < 64
 shiftl_w64 (W64# w) (I# i) = W64# (w `uncheckedShiftL64#` i)

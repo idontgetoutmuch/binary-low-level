@@ -280,7 +280,7 @@ readN n f = fmap f $ getBytes n
 getPtr :: Storable a => Int -> Get a
 getPtr n = do
     (fp, o, _) <- readN n B.toForeignPtr
-    return . B.inlinePerformIO $ withForeignPtr fp $ \p -> peek (castPtr $ p `plusPtr` o)
+    return . B.accursedUnutterablePerformIO $ withForeignPtr fp $ \p -> peek (castPtr $ p `plusPtr` o)
 {-# INLINE getPtr #-}
 
 GETWORDS(Get, getBytes)
@@ -291,8 +291,8 @@ shiftl_w32 :: Word32 -> Int -> Word32
 shiftl_w64 :: Word64 -> Int -> Word64
 
 #if defined(__GLASGOW_HASKELL__) && !defined(__HADDOCK__)
-shiftl_w16 (W16# w) (I# i) = W16# (w `uncheckedShiftL#`   i)
-shiftl_w32 (W32# w) (I# i) = W32# (w `uncheckedShiftL#`   i)
+shiftl_w16 = unsafeShiftL
+shiftl_w32 = unsafeShiftR
 
 #if WORD_SIZE_IN_BITS < 64
 shiftl_w64 (W64# w) (I# i) = W64# (w `uncheckedShiftL64#` i)
